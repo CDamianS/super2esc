@@ -20,7 +20,8 @@ To build super2esc, you'll need a Linux system with clang and make.
 #+begin_src bash
 $ git clone https://github.com/your-username/super2esc.git
 $ cd super2esc
-$ make
+$ cmake -B build -DCMAKE_BUILD_TYPE=Release
+$ cmake --build build
 #+end_Src
 
 ** Execution
