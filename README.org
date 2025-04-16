@@ -1,0 +1,81 @@
+#+title: super2esc
+#+author: Damian Suarez
+
+Transforming a useful key into the most useful one.
+For vi/Vim/NeoVim/Emacs addicts, keyboard enthusiasts, and anyone who loves custom key mappings.
+
+** What is it?
+super2esc is a fork of the caps2esc project, designed to remap the Super (Meta) key to Escape or Control,
+enhancing key mapping flexibility.
+
+It's especially useful for chromebook or chultrabooks,
+where the Escape or Control keys might not be as easily accessible.
+
+** Why?!
+Because the Super key in some keyboards (chromebooks) gets in the way a lot of the time
+
+** Building
+To build super2esc, you'll need a Linux system with clang and make.
+
+#+begin_src bash
+$ git clone https://github.com/your-username/super2esc.git
+$ cd super2esc
+$ make
+#+end_Src
+
+** Execution
+#+begin_src bash
+super2esc - transforming a useful key into the most useful one
+
+usage: super2esc [-h | [-m mode] [-t delay]]
+
+options:
+    -h        show this message and exit
+    -t        delay used for key sequences (default: 20000 microseconds)
+    -m mode   0: default
+                 - super as esc/ctrl
+                 - esc as super
+              1: minimal
+                 - super as esc/ctrl
+              2: useful on 60% layouts
+                 - super as esc/ctrl
+                 - esc as grave accent
+                 - grave accent as super
+#+end_Src
+
+super2esc is an Interception Tools plugin. A suggested udevmon job configuration is:
+(Check the interception tools README for alternatives)
+
+#+begin_src bash
+- JOB: intercept -g $DEVNODE | super2esc | uinput -d $DEVNODE
+  DEVICE:
+    EVENTS:
+      EV_KEY: [KEY_LEFTMETA, KEY_ESC]
+#+end_src
+
+For more information on the Interception Tools, check the [[https://gitlab.com/interception/linux/tools][project's website.]]
+
+** Mouse/Touchpad Support
+After Interception Tools 0.3.2, super2esc can observe (or replace) mouse events. An example configuration:
+#+begin_src
+SHELL: [zsh, -c]
+---
+- CMD: mux -c super2esc
+- JOB: mux -i super2esc | super2esc | uinput -c /etc/interception/keyboard.yaml
+- JOB: intercept -g $DEVNODE | mux -o super2esc
+  DEVICE:
+    LINK: /dev/input/by-path/platform-i8042-serio-0-event-kbd
+- JOB: intercept $DEVNODE | mux -o super2esc
+  DEVICE:
+    LINK: /dev/input/by-path/platform-i8042-serio-4-event-mouse
+For more information, check the Interception Tools documentation on using the mux tool and hybrid virtual device configurations.
+#+end_src
+
+** About this fork
+super2esc is a fork of the caps2esc project, originally created by Francisco Lopes da Silva.
+The core idea—remapping the Caps Lock key to Escape and Control
+has been expanded upon here to work with the Super (Meta)
+key for basic chromebook keyboard support
+
+** License
+As is the original project, this is licensed under MIT. Check LICENSE.md for details

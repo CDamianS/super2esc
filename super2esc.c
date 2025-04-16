@@ -16,7 +16,7 @@ ctrl_down = {.type = EV_KEY , .code = KEY_LEFTCTRL , .value = 1};
 void print_usage(FILE *stream, const char *program) {
     // clang-format off
     fprintf(stream,
-            "super2esc - transforming the super key ever into the most useful one\n"
+            "super2esc - transforming a useful key into the most useful one\n"
             "\n"
             "usage: %s [-h | [-m mode] [-t delay]]\n"
             "\n"
@@ -24,14 +24,14 @@ void print_usage(FILE *stream, const char *program) {
             "    -h         show this message and exit\n"
             "    -t         delay used for key sequences (default: 20000 microseconds)\n"
             "    -m mode    0: default\n"
-            "                  - caps as esc/ctrl\n"
+            "                  - super as esc/ctrl\n"
             "                  - esc as caps\n"
             "               1: minimal\n"
-            "                  - caps as esc/ctrl\n"
+            "                  - super as esc/ctrl\n"
             "               2: useful on 60%% layouts\n"
-            "                  - caps as esc/ctrl\n"
+            "                  - super as esc/ctrl\n"
             "                  - esc as grave accent\n"
-            "                  - grave accent as caps\n",
+            "                  - grave accent as super\n",
             program);
     // clang-format on
 }
